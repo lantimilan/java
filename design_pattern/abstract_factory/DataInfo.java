@@ -2,6 +2,8 @@
 //
 class DataInfo {}
 
+// Local is like factory
+// it creates DataInfo
 interface Local {
     DataInfo[] loadDB(String filename);
 }
