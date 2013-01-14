@@ -50,3 +50,12 @@ class Test {
         Shape obj = fac.createShape();
     }
 }
+
+
+// now the real question
+if I have want to create a set of heterogeneous shapes, what factory do I use?
+The factory method with if/else seems an option, while the abstract/concrete
+factory seems an overkill and not particularly useful.
+
+The if/else is not particularly desirable but the logic of what kind of instance
+to create has to live somewhere.
