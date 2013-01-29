@@ -1,0 +1,61 @@
+Why do you need a factory method?
+
+Answer:
+1. How do you instatiate an object? The answer is to call constructor.
+2. How do you instatiate a set of objects? The answer is to call the respective constructor. But then your code will look ugly when the set of objects are related, say they all implement a common interface.
+
+It would help if the interface could have a virtual constructor and all the classes that implement it override that virtual constructor. Unfortunately construtor cannot be virtual so we have to simulate it, by using a member function.
+
+interface Shape {}
+class Circle implements Shape {}
+class Square implements Shape {}
+
+class ShapeFactory {
+  public Shape createShape(String name) {
+    if (name == "circle") return new Circle();
+    if (name == "square") return new Square();
+  }
+}
+
+class Test {
+    ArrayList<Shape> diagram;
+    String[] names;
+    ShapeFactory factory;
+    for (int i=0; i<names.length(); ++i) {
+        diagram.add(factory.createShape(names[i]));
+    }
+}
+
+The above is clearly not flexible as the ShapeFactory has to know all the
+shapes, Circle, Square, etc, although it has the advantage to make the Factory a
+singleton.  A more flexible solution is to have abstract Factory and concrete
+Factory. This allows a client to create objects from a concrete factory, with
+knowledge to that concrete factory only.
+
+class ShapeFactory {
+    public Shape createShape() {
+    }
+}
+
+class CircleFactory {
+    public Shape createShape() {
+        return new Circle();
+    }
+}
+
+class Test {
+    public static void main(String args) {
+        // only this line needs to change if want new type of object
+        ShapeFactory fac = new CircleFactory();
+        Shape obj = fac.createShape();
+    }
+}
+
+
+// now the real question
+if I have want to create a set of heterogeneous shapes, what factory do I use?
+The factory method with if/else seems an option, while the abstract/concrete
+factory seems an overkill and not particularly useful.
+
+The if/else is not particularly desirable but the logic of what kind of instance
+to create has to live somewhere.
